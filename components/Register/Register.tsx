@@ -7,7 +7,7 @@ const Register: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>Login</title>
+        <title>Register</title>
       </Head>
 
       <section className="h-screen">
