@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import Header from '@/components/Header/Header'
+import Header from '@/components/Header'
 import {
   getProductsByCategoryId,
   getCategories
@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'next/router'
 import { Category, Product } from '@/types'
 import Link from 'next/link'
-import ImageCom from '@/components/Image/Image'
+import ImageCom from '@/components/Image'
 
 const ProductList: React.FC = () => {
   const router = useRouter()

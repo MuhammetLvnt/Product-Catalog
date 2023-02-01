@@ -6,6 +6,7 @@ import { register } from '../../services/AuthServices'
 import { useAppDispatch } from '@/store'
 import { useRouter } from 'next/router'
 import { register as registerHandle } from '../../store/auth'
+import Link from 'next/link'
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -21,7 +22,7 @@ const Register: React.FC = () => {
 
     console.log(result)
 
-    dispatch(registerHandle({ user: true }))
+    dispatch(registerHandle({ exists: true }))
     router.push('/login')
   }
   return (
@@ -124,14 +125,14 @@ const Register: React.FC = () => {
                         Register
                       </button>
                     </div>
-                    {/* <div>
-                      <button
-                        type="submit"
+                    <div>
+                      <Link
+                        href="/login"
                         className="flex w-full justify-center rounded-md border border-[#1E1E1E] bg-white text-[#6251DD] py-2 px-4 text-sm font-medium shadow-sm"
                       >
                         Login
-                      </button>
-                    </div> */}
+                      </Link>
+                    </div>
                   </form>
                 </div>
               </div>

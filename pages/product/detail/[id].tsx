@@ -1,4 +1,4 @@
-import ProductListItem from '@/components/Product/ProductListItem/ProductListItem'
+import ProductListItem from '@/components/Product/ProductListItem'
 
 function ProductDetail() {
   return (

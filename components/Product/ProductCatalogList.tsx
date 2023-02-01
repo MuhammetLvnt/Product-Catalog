@@ -6,7 +6,7 @@ import {
 } from '@/services/ProductService'
 import { Product } from '@/types'
 import Link from 'next/link'
-import ImageCom from '@/components/Image/Image'
+import ImageCom from '@/components/Image'
 interface Props {
   title: string
   id: number

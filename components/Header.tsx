@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import headerLogo from '../../public/headerlogo.svg'
+import headerLogo from '../public/headerlogo.svg'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 

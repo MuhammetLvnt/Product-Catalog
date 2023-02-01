@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import Header from '@/components/Header/Header'
+import Header from '@/components/Header'
 import {
   getProductById,
   getCoverImageByFileName
