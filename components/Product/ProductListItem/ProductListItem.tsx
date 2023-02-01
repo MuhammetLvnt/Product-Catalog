@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Header from '@/components/Header/Header'
+import { getProductById } from '@/services/ProductService'
+import { useRouter } from 'next/router'
+import { Product } from '@/types'
 
 const ProductListItem: React.FC = () => {
-  const products = [
-    {
-      id: 1,
-      name: 'Title',
+  const router = useRouter()
+  const id = parseInt(router.query.id as string, 10)
+  const [productDetail, setProductDetail] = useState<Product>()
 
-      description: 'Subtitle',
-      imageSrc:
-        'https://tailwindui.com/img/ecommerce-images/confirmation-page-04-product-01.jpg',
-      imageAlt:
-        'Off-white t-shirt with circular dot illustration on the front of mountain ridges that fade.',
-      href: '#'
-    }
-  ]
+  const getProduct = async () => {
+    const result = await getProductById(id)
+
+    setProductDetail(result.product_by_pk)
+  }
+  console.log(productDetail)
+
+  useEffect(() => {
+    getProduct()
+  }, [])
+
   return (
     <div>
       <Head>
@@ -23,7 +28,7 @@ const ProductListItem: React.FC = () => {
       </Head>
       <Header />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 mt-10">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
           <button className="mr-3">
             <svg
@@ -46,80 +51,53 @@ const ProductListItem: React.FC = () => {
           <h2 className="sr-only">Products purchased</h2>
 
           <div className="space-y-24">
-            {products.map(product => (
-              <div
-                key={product.id}
-                className="grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-8"
-              >
-                <div
-                  className="sm:col-span-4 md:col-span-5 md:row-span-2 md:row-end-2 w-[420px] h-[570px] grid place-items-center border bg-[#090937]/10
-"
-                >
-                  <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
-                    className="w-[350px] h-[450px] items-center"
-                  />
-                </div>
-                <div className="mt-6 sm:col-span-7 sm:mt-0 md:row-end-1  mb-[60px]">
-                  <div className="flex justify-between">
-                    <h3 className="text-lg font-medium text-gray-900">
-                      <a
-                        href={product.href}
-                        className="text-black text-[40px] leading-[55px] font-semibold font-manrope"
-                      >
-                        {product.name}
-                      </a>
+            <div className="grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-8">
+              <div className="sm:col-span-4 md:col-span-5 md:row-span-2 md:row-end-2 w-[420px] h-[570px] grid place-items-center border bg-[#090937]/10">
+                <img
+                  // src={product.imageSrc}
+                  // alt={product.imageAlt}
+                  className="w-[350px] h-[450px] items-center"
+                />
+              </div>
+              <div className="mt-6 sm:col-span-7 sm:mt-0 md:row-end-1  mb-[60px]">
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    <h3 className="text-black text-[40px] leading-[55px] font-semibold font-manrope">
+                      {productDetail?.name}
                     </h3>
-                    <span>
-                      <svg
-                        width="22"
-                        height="20"
-                        viewBox="0 0 22 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M18.8149 3.27196L18.8143 3.27137C18.3094 2.77993 17.7139 2.38913 17.0599 2.12046L17.059 2.12006C16.3806 1.84022 15.6527 1.69691 14.9178 1.69859L14.9161 1.6986C13.8828 1.69859 12.8764 1.9795 12.0029 2.50866L12.0029 2.50867C11.7939 2.63526 11.5959 2.77394 11.4087 2.9247L10.9383 3.30362L10.4678 2.9247C10.2807 2.77394 10.0827 2.63526 9.87371 2.50867L9.87369 2.50866C9.00016 1.9795 7.99377 1.69859 6.96051 1.69859C6.21517 1.69859 5.49649 1.84004 4.8176 2.12006L4.81679 2.1204C4.16035 2.39027 3.5698 2.7778 3.06207 3.2716L3.06104 3.27259C2.5575 3.76046 2.15553 4.34141 1.87767 4.98239L18.8149 3.27196ZM18.8149 3.27196C19.318 3.76058 19.7201 4.3416 19.9989 4.98239M18.8149 3.27196L19.3374 2.73394C19.9107 3.29072 20.3691 3.95315 20.6871 4.68416M20.6871 4.68416L19.9989 4.98239M20.6871 4.68416C21.0168 5.44494 21.1852 6.25282 21.1828 7.08425C21.1828 7.86858 21.0215 8.68588 20.7013 9.51732L20.6871 4.68416ZM19.9989 4.98239C20.288 5.64941 20.4349 6.35511 20.4328 7.08211V7.08425C20.4328 7.76514 20.2928 8.49116 20.0014 9.24776L20.0008 9.24947C19.7594 9.88083 19.402 10.5509 18.9363 11.2411L19.9989 4.98239ZM18.9363 11.2412C18.1995 12.3319 17.1725 13.4891 15.8753 14.6783C13.7188 16.6538 11.5834 18.0186 11.5057 18.0681L11.5056 18.0682L10.9449 18.4253C10.9448 18.4253 10.9447 18.4253 10.9447 18.4254C10.9434 18.4261 10.941 18.4271 10.9371 18.4271C10.9332 18.4271 10.9308 18.4261 10.9295 18.4254C10.9295 18.4253 10.9294 18.4253 10.9294 18.4253L10.3687 18.0682L10.3687 18.0681L10.3569 18.0608C10.3572 18.061 10.357 18.0609 10.3562 18.0604C10.3536 18.0588 10.345 18.0533 10.3287 18.0429C10.3092 18.0305 10.2819 18.0128 10.2472 17.9902C10.1778 17.9449 10.0799 17.8802 9.95738 17.7974C9.71237 17.6317 9.37002 17.3943 8.96239 17.0964C8.14599 16.4995 7.07371 15.664 5.99916 14.6786L5.99908 14.6785C4.70167 13.4891 3.67457 12.3317 2.9377 11.2409C2.4731 10.5521 2.11732 9.88152 1.8728 9.24776C1.58141 8.49116 1.44141 7.76514 1.44141 7.08425C1.44141 6.35582 1.5886 5.64943 1.87765 4.98245L18.9363 11.2412Z"
-                          stroke="#6251DD"
-                          stroke-width="1.5"
-                        />
-                      </svg>
-                    </span>
-                  </div>
+                  </h3>
+                  <span>
+                    <svg
+                      width="22"
+                      height="20"
+                      viewBox="0 0 22 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18.8149 3.27196L18.8143 3.27137C18.3094 2.77993 17.7139 2.38913 17.0599 2.12046L17.059 2.12006C16.3806 1.84022 15.6527 1.69691 14.9178 1.69859L14.9161 1.6986C13.8828 1.69859 12.8764 1.9795 12.0029 2.50866L12.0029 2.50867C11.7939 2.63526 11.5959 2.77394 11.4087 2.9247L10.9383 3.30362L10.4678 2.9247C10.2807 2.77394 10.0827 2.63526 9.87371 2.50867L9.87369 2.50866C9.00016 1.9795 7.99377 1.69859 6.96051 1.69859C6.21517 1.69859 5.49649 1.84004 4.8176 2.12006L4.81679 2.1204C4.16035 2.39027 3.5698 2.7778 3.06207 3.2716L3.06104 3.27259C2.5575 3.76046 2.15553 4.34141 1.87767 4.98239L18.8149 3.27196ZM18.8149 3.27196C19.318 3.76058 19.7201 4.3416 19.9989 4.98239M18.8149 3.27196L19.3374 2.73394C19.9107 3.29072 20.3691 3.95315 20.6871 4.68416M20.6871 4.68416L19.9989 4.98239M20.6871 4.68416C21.0168 5.44494 21.1852 6.25282 21.1828 7.08425C21.1828 7.86858 21.0215 8.68588 20.7013 9.51732L20.6871 4.68416ZM19.9989 4.98239C20.288 5.64941 20.4349 6.35511 20.4328 7.08211V7.08425C20.4328 7.76514 20.2928 8.49116 20.0014 9.24776L20.0008 9.24947C19.7594 9.88083 19.402 10.5509 18.9363 11.2411L19.9989 4.98239ZM18.9363 11.2412C18.1995 12.3319 17.1725 13.4891 15.8753 14.6783C13.7188 16.6538 11.5834 18.0186 11.5057 18.0681L11.5056 18.0682L10.9449 18.4253C10.9448 18.4253 10.9447 18.4253 10.9447 18.4254C10.9434 18.4261 10.941 18.4271 10.9371 18.4271C10.9332 18.4271 10.9308 18.4261 10.9295 18.4254C10.9295 18.4253 10.9294 18.4253 10.9294 18.4253L10.3687 18.0682L10.3687 18.0681L10.3569 18.0608C10.3572 18.061 10.357 18.0609 10.3562 18.0604C10.3536 18.0588 10.345 18.0533 10.3287 18.0429C10.3092 18.0305 10.2819 18.0128 10.2472 17.9902C10.1778 17.9449 10.0799 17.8802 9.95738 17.7974C9.71237 17.6317 9.37002 17.3943 8.96239 17.0964C8.14599 16.4995 7.07371 15.664 5.99916 14.6786L5.99908 14.6785C4.70167 13.4891 3.67457 12.3317 2.9377 11.2409C2.4731 10.5521 2.11732 9.88152 1.8728 9.24776C1.58141 8.49116 1.44141 7.76514 1.44141 7.08425C1.44141 6.35582 1.5886 5.64943 1.87765 4.98245L18.9363 11.2412Z"
+                        stroke="#6251DD"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </span>
+                </div>
 
-                  <p className="mt-3 text-black/60 font-manrope font-semibold leading-[44px] text-[32px]">
-                    {product.description}
+                <p className="mt-3 text-black/60 font-manrope font-semibold leading-[44px] text-[32px]">
+                  {productDetail?.author}
+                </p>
+              </div>
+              <div className="sm:col-span-12 md:col-span-7">
+                <div>
+                  <h3 className="text-[#090937] font-manrope font-bold leading-[33px] text-2xl mb-[10px]">
+                    Summary
+                  </h3>
+                  <p className="leading-[30px] font-manrope text-xl text-[#090937]/60">
+                    {productDetail?.description}.
                   </p>
                 </div>
-                <div className="sm:col-span-12 md:col-span-7">
-                  <div>
-                    <h3 className="text-[#090937] font-manrope font-bold leading-[33px] text-2xl mb-[10px]">
-                      Summary
-                    </h3>
-                    <p className="leading-[30px] font-manrope text-xl text-[#090937]/60">
-                      Dune is set in the distant future amidst a feudal
-                      interstellar society in which various noble houses control
-                      planetary fiefs. It tells the story of young Paul
-                      Atreides, whose family accepts the stewardship of the
-                      planet Arrakis. While the planet is an inhospitable and
-                      sparsely populated desert wasteland, it is the only source
-                      of melange, or "spice", a drug that extends life and
-                      enhances mental abilities. Melange is also necessary for
-                      space navigation, which requires a kind of
-                      multidimensional awareness and foresight that only the
-                      drug provides. As melange can only be produced on Arrakis,
-                      control of the planet is a coveted and dangerous
-                      undertaking. The story explores the multilayered
-                      interactions of politics, religion, ecology, technology,
-                      and human emotion, as the factions of the empire confront
-                      each other in a struggle for the control of Arrakis and
-                      its spice.
-                    </p>
-                  </div>
-                </div>
               </div>
-            ))}
+            </div>
           </div>
           <div className="flex justify-end mt-[130px] mb-10">
             <button
@@ -130,7 +108,7 @@ const ProductListItem: React.FC = () => {
                 className="w-[68px] h-[27px] font-manrope font-bold leading-[27px] text-xl"
                 aria-hidden="true"
               >
-                $15.36
+                {productDetail?.price} $
               </span>
               <span className="w-[82px] h-[27px] font-manrope font-semibold leading-[27px] text-xl">
                 Buy now
