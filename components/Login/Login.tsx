@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../../public/logo.svg'
@@ -6,10 +6,13 @@ import { login } from '../../services/AuthServices'
 import { useAppDispatch } from '@/store'
 import { login as loginHandle } from '../../store/auth'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Cookies from 'js-cookie'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [checked, setChecked] = useState(false)
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -17,11 +20,16 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    // if (!email) {
+    // }
     const result = await login(email, password)
     console.log(result)
+    if (checked) {
+      const token = result.action_login.token
+      Cookies.set('token', token, { expires: 30 })
+    }
 
-    dispatch(loginHandle({ user: true, token: result.action_login.token }))
-
+    dispatch(loginHandle({ exists: true, token: result.action_login.token }))
     router.push('/')
   }
 
@@ -102,6 +110,8 @@ const Login: React.FC = () => {
                           id="remember-me"
                           name="remember-me"
                           type="checkbox"
+                          checked={checked}
+                          onChange={e => setChecked(e.target.checked)}
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
                         <label
@@ -122,12 +132,12 @@ const Login: React.FC = () => {
                       </button>
                     </div>
                     <div>
-                      <button
-                        type="submit"
+                      <Link
+                        href="/register"
                         className="flex w-full justify-center rounded-md border border-[#6251DD] bg-white py-2 px-4 text-sm font-medium text-[#6251DD] shadow-sm"
                       >
                         Register
-                      </button>
+                      </Link>
                     </div>
                   </form>
                 </div>
