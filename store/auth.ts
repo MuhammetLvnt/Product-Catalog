@@ -1,21 +1,25 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface User {
-  user: object | boolean
+  exists: boolean
+  token?: string
+}
+export interface UserState {
+  user: User
 }
 
-const initialState: User = {
-  user: false
+const initialState: UserState = {
+  user: { exists: false }
 }
 
 const auth = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<object>) => {
+    login: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
-    register: (state, action: PayloadAction<object>) => {
+    register: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     }
   }
