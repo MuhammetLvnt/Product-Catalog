@@ -2,9 +2,10 @@ import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
 
 import auth from './auth'
+import category from './category'
 
 const store = configureStore({
-  reducer: { auth }
+  reducer: { auth, category }
 })
 
 export default store
