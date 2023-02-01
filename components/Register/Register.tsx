@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../../public/logo.svg'
+import { register } from '../../services/AuthServices'
+import { useAppDispatch } from '@/store'
+import { useRouter } from 'next/router'
+import { register as registerHandle } from '../../store/auth'
 
 const Register: React.FC = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const result = await register(email, password, name)
+
+    console.log(result)
+
+    dispatch(registerHandle({ user: true }))
+    router.push('/login')
+  }
   return (
     <div>
       <Head>
@@ -35,7 +55,7 @@ const Register: React.FC = () => {
 
               <div className="mt-8">
                 <div className="mt-6">
-                  <form className="space-y-6">
+                  <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         Name
@@ -46,7 +66,9 @@ const Register: React.FC = () => {
                           name="text"
                           type="text"
                           placeholder="John Doe"
-                          required
+                          onChange={e => {
+                            setName(e.target.value)
+                          }}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
@@ -66,6 +88,9 @@ const Register: React.FC = () => {
                           autoComplete="email"
                           placeholder="john@email.com"
                           required
+                          onChange={e => {
+                            setEmail(e.target.value)
+                          }}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
@@ -85,6 +110,7 @@ const Register: React.FC = () => {
                           type="password"
                           autoComplete="current-password"
                           required
+                          onChange={e => setPassword(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm "
                         />
                       </div>
@@ -98,14 +124,14 @@ const Register: React.FC = () => {
                         Register
                       </button>
                     </div>
-                    <div>
+                    {/* <div>
                       <button
                         type="submit"
                         className="flex w-full justify-center rounded-md border border-[#1E1E1E] bg-white text-[#6251DD] py-2 px-4 text-sm font-medium shadow-sm"
                       >
                         Login
                       </button>
-                    </div>
+                    </div> */}
                   </form>
                 </div>
               </div>
