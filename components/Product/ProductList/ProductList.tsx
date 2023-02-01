@@ -1,25 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Header from '@/components/Header/Header'
-import { getProductsByCategoryId } from '@/services/ProductService'
+import {
+  getProductsByCategoryId,
+  getCategories
+} from '@/services/ProductService'
 import { useRouter } from 'next/router'
-import { Product } from '@/types'
+import { Category, Product } from '@/types'
 import Link from 'next/link'
+import ImageCom from '@/components/Image/Image'
 
 const ProductList: React.FC = () => {
   const router = useRouter()
   const id = parseInt(router.query.id as string, 10)
   const [productDetails, setProductDetails] = useState<Product[]>([])
+  const [category, setCategory] = useState<Category>({ name: '', id })
 
   const getProductsCategoryId = async () => {
     const result = await getProductsByCategoryId(id)
 
     setProductDetails(result.product)
   }
-  console.log(productDetails)
+  const getCategoryName = async () => {
+    const result = await getCategories()
+
+    const categoryName = result.category.find((res: Category) => res.id == id)
+
+    setCategory(categoryName)
+  }
 
   useEffect(() => {
     getProductsCategoryId()
+    getCategoryName()
   }, [])
 
   return (
@@ -31,7 +43,7 @@ const ProductList: React.FC = () => {
         <Header />
         <div className="mx-auto max-w-screen-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-screen-2xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-5">
-            <button className="mr-3">
+            <button className="mr-3" onClick={() => router.push('/')}>
               <svg
                 width="10"
                 height="17"
@@ -45,15 +57,18 @@ const ProductList: React.FC = () => {
                 />
               </svg>
             </button>
-            Best Seller
+            <span>{category.name}</span>
           </h2>
 
           <div className="grid grid-cols-4 gap-4">
             {productDetails.map(productDetail => (
               <Link href={`/product/detail/${productDetail.id}`}>
-                <div className="w-[300px] h-[433px] border grid content-center">
+                <div className="w-[300px] h-[433px] border grid content-center bg-[#F4F4FF]">
                   <div className=" grid place-items-center">
-                    <img alt="" className="border-black w-[200px] h-[300px]" />
+                    <ImageCom
+                      fileName={productDetail.cover}
+                      styleClass="w-[200px] h-[300px]"
+                    />
                   </div>
                   <div className="mx-5 mt-5">
                     <div>

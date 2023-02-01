@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Header from '@/components/Header/Header'
-import { getProductById } from '@/services/ProductService'
+import {
+  getProductById,
+  getCoverImageByFileName
+} from '@/services/ProductService'
 import { useRouter } from 'next/router'
 import { Product } from '@/types'
 
@@ -9,13 +12,20 @@ const ProductListItem: React.FC = () => {
   const router = useRouter()
   const id = parseInt(router.query.id as string, 10)
   const [productDetail, setProductDetail] = useState<Product>()
+  const [imgUrl, setImgUrl] = useState('')
 
   const getProduct = async () => {
     const result = await getProductById(id)
+    const image = await getCoverImageByFileName(result.product_by_pk.cover)
 
+    setImgUrl(image.action_product_image.url)
     setProductDetail(result.product_by_pk)
+
+    console.log(result)
   }
-  console.log(productDetail)
+  const handleGoBack = () => {
+    router.back()
+  }
 
   useEffect(() => {
     getProduct()
@@ -30,7 +40,7 @@ const ProductListItem: React.FC = () => {
 
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 mt-10">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-          <button className="mr-3">
+          <button onClick={handleGoBack} className="mr-3">
             <svg
               width="10"
               height="17"
@@ -52,10 +62,9 @@ const ProductListItem: React.FC = () => {
 
           <div className="space-y-24">
             <div className="grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-8">
-              <div className="sm:col-span-4 md:col-span-5 md:row-span-2 md:row-end-2 w-[420px] h-[570px] grid place-items-center border bg-[#090937]/10">
+              <div className="sm:col-span-4 md:col-span-5 md:row-span-2 md:row-end-2 w-[420px] h-[570px] grid place-items-center border bg-[#F4F4FF]">
                 <img
-                  // src={product.imageSrc}
-                  // alt={product.imageAlt}
+                  src={imgUrl}
                   className="w-[350px] h-[450px] items-center"
                 />
               </div>
@@ -105,7 +114,7 @@ const ProductListItem: React.FC = () => {
               className="items-center justify-between flex rounded-md border bg-[#EF6B4A] w-[400px] h-[60px] px-6 py-3 text-base font-medium text-white shadow-sm"
             >
               <span
-                className="w-[68px] h-[27px] font-manrope font-bold leading-[27px] text-xl"
+                className="w-20 h-[27px] font-manrope font-bold leading-[27px] text-xl"
                 aria-hidden="true"
               >
                 {productDetail?.price} $
