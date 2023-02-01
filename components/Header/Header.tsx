@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import headerLogo from '../../public/headerlogo.svg'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import Link from 'next/link'
 
 const Header: React.FC = () => {
   return (
@@ -13,9 +14,9 @@ const Header: React.FC = () => {
       <div className="mx-auto max-w-screen-2xl h-[120px] px-4 sm:px-6 lg:px-8 grid content-center">
         <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
           <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2 items-center">
-            <a href="#">
+            <Link href="/">
               <Image src={headerLogo} alt="" />
-            </a>
+            </Link>
           </div>
           <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
             <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
@@ -33,7 +34,7 @@ const Header: React.FC = () => {
                   <input
                     id="search"
                     name="search"
-                    className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full rounded-md border bg-[#F4F4FF] border-gray-300  py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                     placeholder="Search"
                     type="search"
                   />
@@ -41,12 +42,11 @@ const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          {/* dadsad */}
 
           <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
             <a
               href="#"
-              className="ml-5 flex-shrink-0 rounded border bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="ml-5 flex-shrink-0 rounded border bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <svg
                 width="24"
@@ -71,7 +71,7 @@ const Header: React.FC = () => {
                 />
               </svg>
             </a>
-            <button className="ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button className="ml-5 flex-shrink-0 rounded-md bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <svg
                 width="25"
                 height="23"
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                 />
               </svg>
             </button>
-            <button className="ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button className="ml-5 flex-shrink-0 rounded-md bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <svg
                 width="24"
                 height="24"
