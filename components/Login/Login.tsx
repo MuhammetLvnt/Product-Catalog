@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../../public/logo.svg'
+import { login } from '../../services/AuthServices'
+import { useAppDispatch } from '@/store'
+import { login as loginHandle } from '../../store/auth'
+import { useRouter } from 'next/router'
 
 const Login: React.FC = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const result = await login(email, password)
+    console.log(result)
+
+    dispatch(loginHandle({ user: true, token: result.action_login.token }))
+
+    router.push('/')
+  }
+
   return (
     <div>
       <Head>
@@ -35,7 +56,7 @@ const Login: React.FC = () => {
 
               <div className="mt-8">
                 <div className="mt-6">
-                  <form className="space-y-6">
+                  <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                       <label
                         htmlFor="email"
@@ -50,7 +71,7 @@ const Login: React.FC = () => {
                           type="email"
                           autoComplete="email"
                           placeholder="john@email.com"
-                          required
+                          onChange={e => setEmail(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
@@ -69,7 +90,7 @@ const Login: React.FC = () => {
                           name="password"
                           type="password"
                           autoComplete="current-password"
-                          required
+                          onChange={e => setPassword(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
