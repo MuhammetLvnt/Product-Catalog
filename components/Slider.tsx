@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import Head from 'next/head'
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import { RxDotFilled } from 'react-icons/rx'
+import banner from '../img/Banner.png'
 
 const Slider: React.FC = () => {
   const slides = [
     {
-      url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80'
+      url: ' https://s3-alpha-sig.figma.com/img/cd95/5723/457258a8c4363be0c373157e315e85c1?Expires=1676246400&Signature=f~GpbjmHAaHUmRcYAn8VRqSsYGbA9pRKaAkT67H5bMClle3evSjoXFBGVRyy1QTh1Xz~pyFLwcDlJGUT21IRq23ea0yVeekJzkUIoebL9QN4zGInk-mU~6QsOTV9vc-uPr8KVUl~cmeA0RCNl4uBdZ7Yt~x2qsKGgRi41n7w5DY3EkBFsIX42ifigDILLKxCf-BhG4O3dip6cYwGJKcZQMXRrq-WdiDuzob77C7KeerIZQI-VnWRGzvS5bydhOsma8pPjQaQw-ZvgQSidLO6lrShyhI6eKKHy9MYhqhIOVHc37hNRL9roFEaoPwftLYbFZiQBiDQvSdwTPEeYmnb6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4'
     },
     {
       url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80'
