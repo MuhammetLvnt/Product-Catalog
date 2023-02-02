@@ -36,7 +36,7 @@ const ProductCatalogList: React.FC<Props> = ({ title, id }) => {
           {title}
         </h2>
         <Link
-          href={`/products/${id}`}
+          href={`/products/category/${id}`}
           className="whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-500"
         >
           <span className="text-[#EF6B4A] font-manrope font-bold text-xl leading-[27px]">
@@ -46,7 +46,10 @@ const ProductCatalogList: React.FC<Props> = ({ title, id }) => {
       </div>
       <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
         {products.map((product, index) => (
-          <Link href={`/product/detail/${product.id}`}>
+          <Link
+            href={'/product/detail/[id]'}
+            as={`/product/detail/${product.slug}-${product.id}`}
+          >
             <div className="group relative">
               <div className=" rounded-lg bg-[#090937]/10 w-80 h-[200px] flex">
                 <div className="px-2 py-2">

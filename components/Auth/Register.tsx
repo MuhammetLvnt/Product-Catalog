@@ -1,30 +1,88 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../../public/logo.svg'
 import { register } from '../../services/AuthServices'
-import { useAppDispatch } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
 import { useRouter } from 'next/router'
-import { register as registerHandle } from '../../store/auth'
+import { User, register as registerHandle } from '../../store/auth'
 import Link from 'next/link'
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
+  const [error, setError] = useState('')
 
   const router = useRouter()
   const dispatch = useAppDispatch()
 
+  const user: User = useAppSelector(state => state.auth.user)
+
+  useEffect(() => {
+    if (user.exists) {
+      router.push('/')
+    }
+  }, [router, user.exists])
+
+  interface FormData {
+    name: string
+    email: string
+    password: string
+  }
+
+  const [errors, setErrors] = useState<FormData>({
+    name: '',
+    email: '',
+    password: ''
+  })
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const result = await register(email, password, name)
 
-    console.log(result)
+    let isValid = true
 
-    dispatch(registerHandle({ exists: true }))
-    router.push('/login')
+    const passwordPattern = /^[a-zA-Z0-9]{6,20}$/
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    const namePattern = /^[a-zA-ZşğüıöçĞÜİŞÖÇ ]{3,25}$/
+
+    if (!namePattern.test(name)) {
+      isValid = false
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        name: 'Name must be between 3 and 25 characters'
+      }))
+    }
+
+    if (!emailPattern.test(email)) {
+      isValid = false
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        email: 'Invalid email address'
+      }))
+    }
+
+    if (!passwordPattern.test(password)) {
+      isValid = false
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Password must be 6 to 20 alphanumeric characters'
+      }))
+    }
+
+    if (isValid) {
+      const result = await register(email, password, name)
+
+      if (result.action_register) {
+        dispatch(registerHandle({ exists: true }))
+        router.push('/')
+      }
+      if (result == 401 || result == 400) {
+        setError('Registration Failed!')
+      }
+    }
   }
+
   return (
     <div>
       <Head>
@@ -72,6 +130,9 @@ const Register: React.FC = () => {
                           }}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
+                        {errors.name && (
+                          <p className="text-red-600">{errors.name}</p>
+                        )}
                       </div>
                     </div>
                     <div>
@@ -88,12 +149,14 @@ const Register: React.FC = () => {
                           type="email"
                           autoComplete="email"
                           placeholder="john@email.com"
-                          required
                           onChange={e => {
                             setEmail(e.target.value)
                           }}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
+                        {errors.email && (
+                          <p className="text-red-600">{errors.email}</p>
+                        )}
                       </div>
                     </div>
 
@@ -110,10 +173,12 @@ const Register: React.FC = () => {
                           name="password"
                           type="password"
                           autoComplete="current-password"
-                          required
                           onChange={e => setPassword(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm "
                         />
+                        {errors.password && (
+                          <p className="text-red-600">{errors.password}</p>
+                        )}
                       </div>
                     </div>
 
@@ -124,6 +189,7 @@ const Register: React.FC = () => {
                       >
                         Register
                       </button>
+                      {error && <p className="text-red-600">{error}</p>}
                     </div>
                     <div>
                       <Link

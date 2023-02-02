@@ -10,18 +10,32 @@ import { Product } from '@/types'
 
 const ProductListItem: React.FC = () => {
   const router = useRouter()
-  const id = parseInt(router.query.id as string, 10)
+
+  const id = router.query.id as string
+  const lastPart: string[] = id?.split('-')?.slice(-1)
+  console.log(typeof lastPart, lastPart)
+
   const [productDetail, setProductDetail] = useState<Product>()
   const [imgUrl, setImgUrl] = useState('')
 
-  const getProduct = async () => {
-    const result = await getProductById(id)
-    const image = await getCoverImageByFileName(result.product_by_pk.cover)
+  const getProduct = () => {
+    const finalPart: string = lastPart[0] ?? ''
+    console.log(finalPart)
+    getProductById(parseInt(finalPart))
+      .then(result => {
+        if (!result.product_by_pk) {
+          router.push('/404')
+        } else {
+          getCoverImageByFileName(result.product_by_pk.cover)
+            .then(image => {
+              setImgUrl(image.action_product_image.url)
+            })
+            .catch(err => router.push('/404'))
 
-    setImgUrl(image.action_product_image.url)
-    setProductDetail(result.product_by_pk)
-
-    console.log(result)
+          setProductDetail(result.product_by_pk)
+        }
+      })
+      .catch(err => router.push('/404'))
   }
   const handleGoBack = () => {
     router.back()

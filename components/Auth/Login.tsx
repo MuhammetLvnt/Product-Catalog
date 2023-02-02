@@ -3,8 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../../public/logo.svg'
 import { login } from '../../services/AuthServices'
-import { useAppDispatch } from '@/store'
-import { login as loginHandle } from '../../store/auth'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { User, login as loginHandle } from '../../store/auth'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Cookies from 'js-cookie'
@@ -13,24 +13,74 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
+  const [error, setError] = useState('')
 
+  const user: User = useAppSelector(state => state.auth.user)
   const router = useRouter()
+
+  useEffect(() => {
+    if (user.exists) {
+      router.push('/')
+    }
+  }, [router, user.exists])
+  console.log(user)
+
+  interface FormData {
+    email: string
+    password: string
+  }
+
+  const [errors, setErrors] = useState<FormData>({
+    email: '',
+    password: ''
+  })
+
   const dispatch = useAppDispatch()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    let isValid = true
 
-    // if (!email) {
-    // }
-    const result = await login(email, password)
-    console.log(result)
-    if (checked) {
-      const token = result.action_login.token
-      Cookies.set('token', token, { expires: 30 })
+    const passwordPattern = /^[a-zA-Z0-9]{6,20}$/
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+    if (!emailPattern.test(email)) {
+      isValid = false
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        email: 'Invalid email address'
+      }))
     }
 
-    dispatch(loginHandle({ exists: true, token: result.action_login.token }))
-    router.push('/')
+    if (!passwordPattern.test(password)) {
+      isValid = false
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Password must be 6 to 20 alphanumeric characters'
+      }))
+    }
+
+    if (isValid) {
+      const result = await login(email, password)
+      console.log(result)
+      if (result.action_login.token == '') {
+        setError('Your email or password is incorrect, please try again.')
+        setEmail('')
+        setPassword('')
+        setErrors({ email: '', password: '' })
+      }
+      if (result.action_login.message == '') {
+        if (checked) {
+          const token = result.action_login.token
+          Cookies.set('token', token, { expires: 30 })
+        }
+
+        dispatch(
+          loginHandle({ exists: true, token: result.action_login.token })
+        )
+        router.push('/')
+      }
+    }
   }
 
   return (
@@ -78,10 +128,14 @@ const Login: React.FC = () => {
                           name="email"
                           type="email"
                           autoComplete="email"
+                          value={email}
                           placeholder="john@email.com"
                           onChange={e => setEmail(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
+                        {errors.email && (
+                          <p className="text-red-600">{errors.email}</p>
+                        )}
                       </div>
                     </div>
 
@@ -97,10 +151,14 @@ const Login: React.FC = () => {
                           id="password"
                           name="password"
                           type="password"
+                          value={password}
                           autoComplete="current-password"
                           onChange={e => setPassword(e.target.value)}
                           className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                         />
+                        {errors.password && (
+                          <p className="text-red-600">{errors.password}</p>
+                        )}
                       </div>
                     </div>
 
@@ -130,6 +188,7 @@ const Login: React.FC = () => {
                       >
                         Login
                       </button>
+                      {error && <p className="text-red-600">{error}</p>}
                     </div>
                     <div>
                       <Link

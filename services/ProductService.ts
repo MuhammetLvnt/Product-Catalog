@@ -16,9 +16,13 @@ export const getProductsByCategoryId = async (id: number) => {
 
 export const getProductById = async (id: number) => {
   const url = `api/rest/product/${id}`
-  const result = await axios.get(url)
+  try {
+    const result = await axios.get(url)
 
-  return result.data
+    return result.data
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export const getCoverImageByFileName = async (fileName: string) => {

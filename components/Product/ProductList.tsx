@@ -62,7 +62,10 @@ const ProductList: React.FC = () => {
 
           <div className="grid grid-cols-4 gap-4">
             {productDetails.map(productDetail => (
-              <Link href={`/product/detail/${productDetail.id}`}>
+              <Link
+                href={'/product/detail/[id]'}
+                as={`/product/detail/${productDetail.slug}-${productDetail.id}`}
+              >
                 <div className="w-[300px] h-[433px] border grid content-center bg-[#F4F4FF]">
                   <div className=" grid place-items-center">
                     <ImageCom

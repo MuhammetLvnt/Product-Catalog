@@ -15,7 +15,6 @@ export default function Home() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [showContent, setShowContent] = useState(false)
-  console.log(user.exists, user.token)
 
   useEffect(() => {
     if (user.exists) {
