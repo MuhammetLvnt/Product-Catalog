@@ -18,7 +18,7 @@ const Slider: React.FC = () => {
       url: 'https://s3.piton.com.tr/assignment/dune.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=P%21T10.MINIO%2F20230202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230202T104157Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=1177b4fdde9b468b770bd960190277ef99c53584a48e01c3326ad20ce79f4154'
     },
     {
-      url: 'https://s3.piton.com.tr/assignment/kurk-mantolu-madonna.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=P%21T10.MINIO%2F20230202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230202T104453Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=de2520504a945527415b46b038806ad43b0bbdfd923a4d45fde425f7fa8d951a'
+      url: 'https://s3.piton.com.tr/assignment/dune.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=P%21T10.MINIO%2F20230202%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230202T104157Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=1177b4fdde9b468b770bd960190277ef99c53584a48e01c3326ad20ce79f4154'
     }
   ]
 
