@@ -61,8 +61,9 @@ const ProductList: React.FC = () => {
           </h2>
 
           <div className="grid grid-cols-4 gap-4">
-            {productDetails.map(productDetail => (
+            {productDetails.map((productDetail, index) => (
               <Link
+                key={index}
                 href={'/product/detail/[id]'}
                 as={`/product/detail/${productDetail.slug}-${productDetail.id}`}
               >

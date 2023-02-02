@@ -47,6 +47,7 @@ const ProductCatalogList: React.FC<Props> = ({ title, id }) => {
       <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
         {products.map((product, index) => (
           <Link
+            key={index}
             href={'/product/detail/[id]'}
             as={`/product/detail/${product.slug}-${product.id}`}
           >
