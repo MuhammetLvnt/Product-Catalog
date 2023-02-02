@@ -18,7 +18,7 @@ const Header: React.FC = () => {
               <Image src={headerLogo} alt="" />
             </Link>
           </div>
-          <div className="min-w-0 flex-1 md:px-8 sm:px-0 sm:col-span-6 md:ml-10">
+          <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
             <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
               <div className="w-full">
                 <label htmlFor="search" className="sr-only">
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
                   <input
                     id="search"
                     name="search"
-                    className="block w-full rounded-md border bg-[#F4F4FF] border-gray-300  py-2 pl-10 pr-3 text-sm placeholder-gray-500 sm:text-sm"
+                    className="block w-full rounded-md border bg-[#F4F4FF] border-gray-300  py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                     placeholder="Search"
                     type="search"
                   />
@@ -43,7 +43,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          <div className="hidden sm:flex sm:items-center sm:justify-end sm:col-span-3">
+          <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
             <Link
               href="#"
               className="ml-5 flex-shrink-0 rounded border bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
