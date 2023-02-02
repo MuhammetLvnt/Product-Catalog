@@ -44,7 +44,7 @@ const Header: React.FC = () => {
           </div>
 
           <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
-            <a
+            <Link
               href="#"
               className="ml-5 flex-shrink-0 rounded border bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                   stroke-linejoin="round"
                 />
               </svg>
-            </a>
+            </Link>
             <button className="ml-5 flex-shrink-0 rounded-md bg-[#F4F4FF] p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <svg
                 width="25"

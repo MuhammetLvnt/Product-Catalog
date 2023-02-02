@@ -8,9 +8,9 @@ export default function Example() {
       <div className="flex min-h-full flex-col bg-white pt-16 pb-12">
         <main className="mx-auto flex w-full max-w-7xl flex-grow flex-col justify-center px-6 lg:px-8">
           <div className="flex flex-shrink-0 justify-center">
-            <a href="/" className="inline-flex">
+            <Link href="/" className="inline-flex">
               <Image className="h-12 w-auto" src={logo} alt="" />
-            </a>
+            </Link>
           </div>
           <div className="py-16">
             <div className="text-center">
