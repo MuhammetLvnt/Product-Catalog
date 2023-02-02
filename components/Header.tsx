@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import Image from 'next/image'
 import headerLogo from '../public/headerlogo.svg'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
@@ -8,9 +7,6 @@ import Link from 'next/link'
 const Header: React.FC = () => {
   return (
     <div>
-      <Head>
-        <title>Header</title>
-      </Head>
       <div className="mx-auto max-w-screen-2xl h-[120px] px-4 sm:px-6 lg:px-8 grid content-center">
         <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
           <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2 items-center">

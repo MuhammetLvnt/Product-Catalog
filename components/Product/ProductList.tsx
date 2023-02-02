@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Head from 'next/head'
 import Header from '@/components/Header'
 import {
   getProductsByCategoryId,
@@ -9,6 +8,7 @@ import { useRouter } from 'next/router'
 import { Category, Product } from '@/types'
 import Link from 'next/link'
 import ImageCom from '@/components/Image'
+import Head from 'next/head'
 
 const ProductList: React.FC = () => {
   const router = useRouter()
@@ -23,7 +23,6 @@ const ProductList: React.FC = () => {
   }
   const getCategoryName = async () => {
     const result = await getCategories()
-
     const categoryName = result.category.find((res: Category) => res.id == id)
 
     setCategory(categoryName)
@@ -37,7 +36,7 @@ const ProductList: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>ProductList</title>
+        <title>{category.name} | Product Catalog</title>
       </Head>
       <div>
         <Header />

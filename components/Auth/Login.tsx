@@ -23,7 +23,6 @@ const Login: React.FC = () => {
       router.push('/')
     }
   }, [router, user.exists])
-  console.log(user)
 
   interface FormData {
     email: string
@@ -62,7 +61,7 @@ const Login: React.FC = () => {
 
     if (isValid) {
       const result = await login(email, password)
-      console.log(result)
+
       if (result.action_login.token == '') {
         setError('Your email or password is incorrect, please try again.')
         setEmail('')
@@ -86,7 +85,7 @@ const Login: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>Login</title>
+        <title>Login | Product Catalog</title>
       </Head>
 
       <section className="h-screen">

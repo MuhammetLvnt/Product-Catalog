@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import Head from 'next/head'
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import { RxDotFilled } from 'react-icons/rx'
-import banner from '../img/Banner.png'
 
 const Slider: React.FC = () => {
   const slides = [
@@ -43,9 +41,6 @@ const Slider: React.FC = () => {
   }
   return (
     <div>
-      <Head>
-        <title>Slider</title>
-      </Head>
       <div className="w-full  relative group">
         <div
           style={{ backgroundImage: `url(${slides[currentIndex].url})` }}

@@ -20,9 +20,7 @@ export const getProductById = async (id: number) => {
     const result = await axios.get(url)
 
     return result.data
-  } catch (err) {
-    console.log(err)
-  }
+  } catch (err) {}
 }
 
 export const getCoverImageByFileName = async (fileName: string) => {

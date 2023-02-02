@@ -86,7 +86,7 @@ const Register: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <title>Register | Product Catalog</title>
       </Head>
 
       <section className="h-screen">

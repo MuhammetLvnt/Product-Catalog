@@ -13,14 +13,12 @@ const ProductListItem: React.FC = () => {
 
   const id = router.query.id as string
   const lastPart: string[] = id?.split('-')?.slice(-1)
-  console.log(typeof lastPart, lastPart)
 
   const [productDetail, setProductDetail] = useState<Product>()
   const [imgUrl, setImgUrl] = useState('')
 
   const getProduct = () => {
     const finalPart: string = lastPart[0] ?? ''
-    console.log(finalPart)
     getProductById(parseInt(finalPart))
       .then(result => {
         if (!result.product_by_pk) {
@@ -48,7 +46,7 @@ const ProductListItem: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>ProductListItem</title>
+        <title>{productDetail?.name ?? ''} | Product Catalog</title>
       </Head>
       <Header />
 

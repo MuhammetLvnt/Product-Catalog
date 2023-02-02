@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Head from 'next/head'
-import {
-  getProductsByCategoryId,
-  getCoverImageByFileName
-} from '@/services/ProductService'
+import { getProductsByCategoryId } from '@/services/ProductService'
 import { Product } from '@/types'
 import Link from 'next/link'
 import ImageCom from '@/components/Image'
@@ -27,10 +23,6 @@ const ProductCatalogList: React.FC<Props> = ({ title, id }) => {
 
   return (
     <div>
-      <Head>
-        <title>ProductCatalogList</title>
-      </Head>
-
       <div className="flex items-center justify-between space-x-4 my-10">
         <h2 className="font-manrope font-bold text-[32px] text-[#090937]">
           {title}

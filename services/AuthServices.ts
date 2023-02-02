@@ -22,11 +22,7 @@ export const register = async (
     return result.data
   } catch (error: any) {
     if (error.response) {
-      console.log('aasassda', error.response.data)
       return error.response.data.internal.response.body.message.status
     }
-    // else {
-    //   console.log('dflkmkjgndmn', error.statusCode)
-    // }
   }
 }
